@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.febiarifin.inponime.data.AnimeRepository
 import com.febiarifin.inponime.ui.screen.detail.DetailAnimeViewModel
+import com.febiarifin.inponime.ui.screen.favorite.FavoriteViewModel
 import com.febiarifin.inponime.ui.screen.home.HomeViewModel
 
 class ViewModelFactory(private val repository: AnimeRepository) :
@@ -15,10 +16,9 @@ class ViewModelFactory(private val repository: AnimeRepository) :
             return HomeViewModel(repository) as T
         } else if (modelClass.isAssignableFrom(DetailAnimeViewModel::class.java)) {
             return DetailAnimeViewModel(repository) as T
+        } else if (modelClass.isAssignableFrom(FavoriteViewModel::class.java)) {
+            return FavoriteViewModel(repository) as T
         }
-//        else if (modelClass.isAssignableFrom(CartViewModel::class.java)) {
-//            return CartViewModel(repository) as T
-//        }
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
     }
 }

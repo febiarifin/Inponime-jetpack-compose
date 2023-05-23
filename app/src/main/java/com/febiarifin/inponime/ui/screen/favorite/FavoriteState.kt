@@ -3,6 +3,5 @@ package com.febiarifin.inponime.ui.screen.favorite
 import com.febiarifin.inponime.model.FavoriteAnime
 
 data class FavoriteState(
-    val favoriteAnime: List<FavoriteAnime>,
-    val isFavorite: Boolean
+    val favoriteAnime: List<FavoriteAnime>
 )

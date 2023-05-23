@@ -1,5 +1,6 @@
 package com.febiarifin.inponime.ui.screen.detail
 
+import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -18,6 +19,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -58,9 +60,10 @@ fun DetailScreen(
                     data.anime.description,
                     data.anime.genre,
                     data.anime.rating,
+                    data.isFavorite,
                     onBackClick = navigateBack,
-                    onAddToFavorite = { count ->
-                        viewModel.addToFavorite(data.anime, true)
+                    onAddToFavorite = { isFavorite ->
+                        viewModel.addToFavorite(data.anime, isFavorite)
                         navigateToFavorite()
                     }
                 )
@@ -77,12 +80,13 @@ fun DetailContent(
     description: String,
     genre: String,
     rating: String,
+    isFavorite: Boolean,
     onBackClick: () -> Unit,
     onAddToFavorite: (isFavorite: Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
 
-    var isAnimeFavorite by rememberSaveable { mutableStateOf(false) }
+    var isAnimeFavorite by rememberSaveable { mutableStateOf(isFavorite) }
 
     Column(modifier = modifier) {
         Column(
@@ -160,17 +164,21 @@ fun DetailContent(
                 )
             }
         }
-
+        val context = LocalContext.current
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
             FavoriteButton(
                 isFavorite = isAnimeFavorite,
                 onClick = {
-                    if (isAnimeFavorite) {
-                        onAddToFavorite(false)
-                    } else {
+                    if (isAnimeFavorite == false) {
+                        Toast.makeText(context, "Ditambahkan ke Favorite", Toast.LENGTH_SHORT).show()
+                        isAnimeFavorite = true
                         onAddToFavorite(true)
+                    } else {
+                        Toast.makeText(context, "Dihapus dari Favorite", Toast.LENGTH_SHORT).show()
+                        isAnimeFavorite = false
+                        onAddToFavorite(false)
                     }
                 },
                 modifier = modifier.fillMaxWidth().height(52.dp)
@@ -189,6 +197,7 @@ fun DetailContentPreview() {
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
             "Action, Fantasi, Komedi",
             "8.90",
+            false,
             onBackClick = {},
             onAddToFavorite = {}
         )

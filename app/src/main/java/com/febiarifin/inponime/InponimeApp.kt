@@ -24,7 +24,9 @@ import androidx.navigation.navArgument
 import com.febiarifin.inponime.ui.navigation.NavigationItem
 import com.febiarifin.inponime.ui.theme.InponimeTheme
 import com.febiarifin.inponime.ui.navigation.Screen
+import com.febiarifin.inponime.ui.screen.about.AboutScreen
 import com.febiarifin.inponime.ui.screen.detail.DetailScreen
+import com.febiarifin.inponime.ui.screen.favorite.FavoriteScreen
 import com.febiarifin.inponime.ui.screen.home.HomeScreen
 
 @Composable
@@ -55,17 +57,16 @@ fun InponimeApp(
                     }
                 )
             }
-//            composable(Screen.Favorite.route) {
-//                val context = LocalContext.current
-//                Favorite(
-//                    onOrderButtonClicked = {message ->
-//                        shareOrder(context, message)
-//                    }
-//                )
-//            }
-//            composable(Screen.About.route) {
-//                ProfileScreen()
-//            }
+            composable(Screen.Favorite.route) {
+                FavoriteScreen(
+                   navigateToDetail = {animeId ->
+                       navController.navigate(Screen.DetailAnime.createRoute(animeId))
+                   }
+                )
+            }
+            composable(Screen.About.route) {
+                AboutScreen()
+            }
             composable(
                 Screen.DetailAnime.route,
                 arguments = listOf(navArgument("animeId") { type = NavType.LongType }),
@@ -75,14 +76,14 @@ fun InponimeApp(
                     animeId = id,
                     navigateBack = { navController.navigateUp() },
                     navigateToFavorite = {
-//                        navController.popBackStack()
-//                        navController.navigate(Screen.Favorite.route){
-//                            popUpTo(navController.graph.findStartDestination().id){
-//                                saveState = true
-//                            }
-//                            launchSingleTop = true
-//                            restoreState = true
-//                        }
+                        navController.popBackStack()
+                        navController.navigate(Screen.Favorite.route){
+                            popUpTo(navController.graph.findStartDestination().id){
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
                     }
                 )
             }

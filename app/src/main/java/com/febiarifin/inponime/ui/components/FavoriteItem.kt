@@ -30,7 +30,7 @@ fun FavoriteItem(
     title: String,
     rating: String,
     isFavorite: Boolean,
-    onAnimeFavoriteChanged: (id: Long) -> Unit,
+    onFavoriteAnimeChanged: (id: Long, isFavorite: Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -86,7 +86,7 @@ fun FavoriteItem(
         FavoriteButton(
             isFavorite = isFavorite,
             onClick = {
-
+                onFavoriteAnimeChanged(animeId, false)
             },
         )
     }
@@ -102,7 +102,7 @@ fun FavoriteItemPreview() {
             title = "Naruto Shippuden",
             rating = "8.90",
             isFavorite = true,
-            onAnimeFavoriteChanged = { animeId -> }
+            onFavoriteAnimeChanged = { animeId, isFavorite -> }
         )
     }
 }
